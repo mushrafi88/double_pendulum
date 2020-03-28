@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
+from math import * 
+from numpy import *
+from pandas import *
 
 m1  = 1.0              
 m2  = 1.0
@@ -13,20 +11,9 @@ dt  = 0.01
 M   = m2 / (m1+m2) 
 l   = l1/l2    
 dx  = dt/5
-R   = 1                    #radius of bob
+R   = 1                  
 r   = 0.1
 pi  = 3.141592653589793238
-
-
-# In[2]:
-
-
-from math import * 
-from numpy import *
-from pandas import *
-
-
-# In[3]:
 
 
 def alpha1(ang_1, ang_2):
@@ -46,29 +33,20 @@ def g3(ang_1, ang_2, w1, w2):
     return (f1(ang_1, ang_2, w1, w2)-alpha1(ang_1, ang_2)*f2(ang_1, ang_2, w1, w2))/(1-alpha1(ang_1, ang_2)*alpha2(ang_1, ang_2))
 def g4(ang_1, ang_2, w1, w2):
     return (f2(ang_1, ang_2, w1, w2)-f1(ang_1, ang_2, w1, w2)*alpha2(ang_1, ang_2))/(1-alpha1(ang_1, ang_2)*alpha2(ang_1, ang_2))
-   
 
-
-# In[4]:
-
-
-# Initial Value
-x1 = pi/2         # theta1
-x2 = pi/2         # theta2
-x3 = 0.0              # w1i
-x4 = 0.0              # w2i
-t  = 0.0              # time
+x1 = pi/2         
+x2 = pi/2         
+x3 = 0.0              
+x4 = 0.0               
+t  = 0.0              
 y1 = [x1]
 y2 = [x2]
 y3 = [x3]
 y4 = [x4]
 
 
-# In[5]:
-
 
 for x in range(1,1000):
-    # Calculate using Runge-Kutta 4th
         t = t + dt
         k11 = g1(x1, x2, x3, x4)
         k12 = g2(x1, x2, x3, x4)
@@ -87,7 +65,7 @@ for x in range(1,1000):
         k43 = g3(x1+dt*k31,  x2+dt*k32,  x3+dt*k33,  x4+dt*k34 )
         k44 = g4(x1+dt*k31,  x2+dt*k32,  x3+dt*k33,  x4+dt*k34 )
         
-        # Update angle and angular velocity
+      
         x1 = x1 + dx * (k11 + 2*k21 + 2*k31 + k41)
         y1.append(x1)
         x2 = x2 + dx * (k12 + 2*k22 + 2*k32 + k42)
@@ -98,23 +76,14 @@ for x in range(1,1000):
         y4.append(x4)
 
 
-# In[6]:
-
 
 zip(y1,y2)
-
-
-# In[7]:
-
 
 import csv
 with open('dp_ang_just.csv', 'w') as f:
     writer = csv.writer(f, delimiter='\t')
     writer.writerows(zip(y1,y2))
 quit()    
-
-
-# In[8]:
 
 
 import pandas as pd
@@ -125,32 +94,7 @@ p1y = -l1*cos(a)
 p2x = l1*sin(a)+l2*sin(b)
 p2y = -(l1*cos(a)+l2*cos(b))
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[9]:
-
-
 zip(p1x,p1y,p2x,p2y)
-
-
-# In[10]:
 
 
 import csv
@@ -158,22 +102,3 @@ with open('dp_pos.csv', 'w') as f:
     writer = csv.writer(f, delimiter='\t')
     writer.writerows(zip(p1x,p1y,p2x,p2y))
 quit()
-
-
-# In[11]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
